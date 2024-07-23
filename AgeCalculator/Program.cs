@@ -1,4 +1,5 @@
 ﻿using AgeCalculator.Models;
+using AgeCalculator.Controllers;
 
 namespace AgeCalculator
 {
@@ -6,42 +7,23 @@ namespace AgeCalculator
 	{
 		static void Main(string[] args)
 		{
+			AgeController ageController = new AgeController();
+
 			// Get start and end dates from user
-			// Console.WriteLine("Date 1: (dd.mm.yyyy)");
-			// string? startDateInput = Console.ReadLine();
-			string startDateInput = "10.07.1998";
-			// 
-			// Console.WriteLine("Date 2: (dd.mm.yyyy)");
-			// string? endDateInput = Console.ReadLine();
-			string endDateInput = "23.07.2024";
+			Console.WriteLine("Date 1: (dd.mm.yyyy)");
+			string? startDateInput = Console.ReadLine();
 
-			// Format input and validate as datetime
-			DateTime startDate = DateTime.Parse(startDateInput);
-			DateTime endDate = DateTime.Parse(endDateInput);
+			Console.WriteLine("Date 2: (dd.mm.yyyy)");
+			string? endDateInput = Console.ReadLine();
 
-			Age userAge = GetAge(startDate, endDate);
-
-            Console.WriteLine($"You are {userAge.Years} years, {userAge.Months} months and {userAge.Days} days old.");
-        }
-
-		private static Age GetAge(DateTime firstDate, DateTime secondDate)
-		{
-			int yearDifference = secondDate.Year - firstDate.Year;
-			int monthDifference = secondDate.Month - firstDate.Month;
-			int dayDifference = secondDate.Day - firstDate.Day;
-
-			if (dayDifference < 0)
+			if (string.IsNullOrEmpty(startDateInput) || string.IsNullOrEmpty(endDateInput))
 			{
-				monthDifference--;
-				dayDifference += DateTime.DaysInMonth(secondDate.AddMonths(-1).Year, secondDate.AddMonths(-1).Month);
-			}
-			if (monthDifference < 0)
+                Console.WriteLine("Invalid or null date.");
+            }
+			else
 			{
-				yearDifference--;
-				monthDifference += 12;
+				ageController.ShowAgeInfo(startDateInput, endDateInput);
 			}
-
-			return new Age(yearDifference, monthDifference, dayDifference);
         }
 	}
 }
